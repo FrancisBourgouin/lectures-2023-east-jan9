@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Specific todo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <header>
+      <h1>Todo page for id: <%= todo.id %></h1>
+    </header>
+    <main>
+      <p>The todo is : <%= todo.task %></p>
+      <% if(todo.isCompleted){ %>
+      <p>It's completed</p>
+      <% } else { %>
+      <p>It's not completed</p>
+      <% } %>
+      <form method="POST" action="/todos/<%= todo.id %>/delete">
+        <button type="submit">Delete todo</button>
+      </form>
+      <form method="POST" action="/todos/<%= todo.id %>/update">
+        <% if(todo.isCompleted){ %>
+        <button type="submit">Mark as incomplete</button>
+        <% } else { %>
+        <button type="submit">Mark as complete</button>
+        <% } %>
+      </form>
+      <a href="/todos">Go back to all the todos</a>
+    </main>
+  </body>
+</html>
