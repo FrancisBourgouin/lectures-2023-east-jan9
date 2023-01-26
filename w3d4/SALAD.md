@@ -1,0 +1,6 @@
+CAESAR SHIFT
+
+Hello => 1 => Ifmmp
+Hello => 123 => Igomq
+
+PLAINTEXT => ENCRYPTED TEXT => PLAINTEXT (ENCRYPTION)
