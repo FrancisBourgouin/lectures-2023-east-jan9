@@ -1,8 +1,16 @@
+require("dotenv").config();
 const express = require("express"); // Requires Express Framework (Routing / Server)
 const path = require("path"); // Requires Path (Multiple OS path support)
 const logger = require("morgan"); // Require Morgan (Logs the requests received)
 const cookieParser = require("cookie-parser"); // Require Cookie Parser (Parse string to cookie)
 const cookieSession = require("cookie-session");
+
+const {
+  getUserByEmail,
+  authenticateUser,
+  addUser,
+  fetchAllUsers,
+} = require("./helpers/userHelpers");
 
 const app = express(); // Create an express server and reference with app
 // view engine setup
@@ -27,41 +35,19 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
+app.use((req, res, next) => {
+  const { email } = req.session;
+  const user = getUserByEmail(email);
 
-const user1 = {
-  name: "Dimitri Ivanovich Mendeleiv",
-  email: "periodic@table.com",
-  password: "hydrogen",
-  secret: "Actually prefers biology over chemistry",
-};
-const user2 = {
-  name: "Doug Judy",
-  email: "pontiac@bandit.com",
-  password: "rosa",
-  secret: "Cannot drive stick",
-};
+  const whiteList = ["/", "/login"];
 
-const userDatabaseIsh = {
-  "periodic@table.com": user1,
-  "pontiac@bandit.com": user2,
-};
-
-const getUserByEmail = (db, email) => {
-  return db[email];
-};
-
-const authenticateUser = (db, email, password) => {
-  const potentialUser = db[email];
-
-  if (!potentialUser) {
-    return { error: "user not found", user: null };
+  if (user || whiteList.includes(req.url)) {
+    // if(!req.session.email){
+    return next();
   }
 
-  if (potentialUser.password === password) {
-    return { error: null, user: potentialUser };
-  }
-  return { error: "bad password", user: null };
-};
+  return res.redirect("/");
+});
 
 app.get("/", (req, res) => {
   return res.render("index");
@@ -70,7 +56,7 @@ app.get("/", (req, res) => {
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  const { error, user } = authenticateUser(userDatabaseIsh, email, password);
+  const { error, user } = authenticateUser(email, password);
 
   if (error) {
     console.log(error);
@@ -91,8 +77,7 @@ app.post("/login", (req, res) => {
 
 app.get("/secret", (req, res) => {
   const { email } = req.session;
-
-  const user = getUserByEmail(userDatabaseIsh, email);
+  const user = getUserByEmail(email);
 
   const templateVars = {
     name: user.name,
@@ -100,6 +85,20 @@ app.get("/secret", (req, res) => {
   };
 
   return res.render("secret", templateVars);
+});
+
+app.get("/api/users", (req, res) => {
+  res.json(fetchAllUsers());
+});
+
+app.post("/register", (req, res) => {
+  const { email, name, password, secret } = req.body;
+
+  addUser(email, name, password, secret);
+
+  req.session.email = email;
+
+  return res.redirect("/secret");
 });
 
 module.exports = app;
