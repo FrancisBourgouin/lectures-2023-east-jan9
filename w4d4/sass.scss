@@ -1,0 +1,37 @@
+$header-background: #c0ffee;
+$main-article-bg: #bada55;
+$hover-article-bg: #b4b;
+
+html,
+body {
+  margin: 0;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: $header-background;
+  padding: 1em;
+}
+
+main {
+  article {
+    background: $main-article-bg;
+    padding: 1em;
+
+    &:hover {
+      background: $hover-article-bg;
+    }
+
+    &:not(:last-of-type()) {
+      margin-bottom: 1em;
+    }
+
+    h1 {
+      display: inline-block;
+      border-bottom: 0.2em solid black;
+    }
+  }
+}

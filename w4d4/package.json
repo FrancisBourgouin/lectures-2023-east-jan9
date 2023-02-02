@@ -1,0 +1,15 @@
+{
+  "name": "w4d4",
+  "version": "1.0.0",
+  "description": "## Today's menu",
+  "main": "index.js",
+  "scripts": {
+    "compile": "sass ./sass.scss ./sass-cool.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sass": "^1.58.0"
+  }
+}

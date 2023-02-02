@@ -1,0 +1,41 @@
+:root {
+  --header-background: #c0ffee;
+  --main-article-bg: #bada55;
+  --hover-article-bg: #b4b;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: var(--header-background);
+  padding: 1em;
+
+  transition: background-color 250ms ease-out;
+}
+
+main article {
+  background: var(--main-article-bg);
+  transition: background-color 250ms ease-out;
+  padding: 1em;
+}
+
+main article:hover {
+  background: var(--hover-article-bg);
+  cursor: pointer;
+}
+
+main article:not(:last-of-type) {
+  margin-bottom: 1em;
+}
+
+main article h1 {
+  display: inline-block;
+  border-bottom: 0.2em solid black;
+}

@@ -1,0 +1,29 @@
+html,
+body {
+  margin: 0;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #c0ffee;
+  padding: 1em;
+}
+
+main article {
+  background: #bada55;
+  padding: 1em;
+}
+main article:hover {
+  background: #b4b;
+}
+main article:not(:last-of-type()) {
+  margin-bottom: 1em;
+}
+main article h1 {
+  display: inline-block;
+  border-bottom: 0.2em solid black;
+}
+
+/*# sourceMappingURL=sass-cool.css.map */
